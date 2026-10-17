@@ -1,0 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-rust: #C4622D;
+  --color-terracotta: #D4845A;
+  --color-sand: #E8B89A;
+  --color-cream: #F5DEC8;
+  --color-dark: #1A1008;
+
+  /* Section 4, 5, 6 Exact Design Tokens */
+  --color-dark-brown: #2B1810;
+  --color-terracotta-accent: #A64A2E;
+  --color-rust-orange: #C97A3D;
+  --color-maroon: #6B1F22;
+  --color-cream-bg: #EFE6D8;
+  --color-cream-light: #F7F1E7;
+  --color-white: #FFFFFF;
+  --color-black: #1A1210;
+  --color-text-dark: #2B1810;
+  --color-text-light: #FFFFFF;
+
+  --sidebar-gradient: linear-gradient(180deg, #2B1810 0%, #A64A2E 100%);
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --header-height: 80px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  background-color: var(--color-dark);
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-cream);
+  background-color: var(--color-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Base typography */
+h1, h2, h3, .font-serif {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+}
+
+/* Custom section divider - thin 1px border in #E8B89A */
+.section-divider {
+  border-top: 1px solid #E8B89A;
+  width: 100%;
+}
+
+/* Vertical "DOWN SCROLL" indicator animation */
+@keyframes verticalBounce {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 1;
+  }
+}
+
+.animate-down-scroll {
+  animation: verticalBounce 2s ease-in-out infinite;
+}
+
+/* Vertical text styling */
+.vertical-lr {
+  writing-mode: vertical-lr;
+  text-orientation: mixed;
+}
+
+/* Cursor trail styling for Section 3 */
+.cursor-trail-stage {
+  position: relative;
+  width: 100%;
+  min-height: 85vh;
+  min-height: 85dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cursor-trail-item {
+  position: absolute;
+  width: clamp(140px, 16vw, 210px);
+  aspect-ratio: 2 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.6) rotate(0deg);
+  opacity: 0;
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+  border: 2px solid #E8B89A;
+  background-color: var(--color-dark);
+}
+
+.cursor-trail-item.is-active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1) rotate(var(--rot, 0deg));
+}
+
+.cursor-trail-item.is-fading {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.85) rotate(var(--rot, 0deg));
+}
+
+.cursor-trail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Hide scrollbar utility for clean edge-to-edge UI */
+.no-scrollbar::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar,
+.hide-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar,
+.custom-scrollbar,
+.hide-scrollbar {
+  -ms-overflow-style: none !important; /* IE and Edge */
+  scrollbar-width: none !important; /* Firefox */
+}
+
