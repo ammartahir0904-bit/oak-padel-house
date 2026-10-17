@@ -17,37 +17,44 @@ for (let row = 0; row < 8; row++) {
   }
 }
 
-function PadelRacket({ className }) {
+const BG = '#FFFBDC';
+const INK = '#1A1A1A';
+
+function Racket() {
   return (
-    <svg viewBox="0 0 100 182" className={className} aria-hidden="true">
-      {/* Frame */}
-      <path
-        d="M50 4C77 4 95 23 95 51c0 28-18 50-45 54C23 101 5 79 5 51 5 23 23 4 50 4Z"
-        fill="#C4622D"
-      />
-      {/* Hitting face */}
+    <g>
+      {/* Head with perforated face */}
+      <path d="M50 4C77 4 95 23 95 51c0 28-18 50-45 54C23 101 5 79 5 51 5 23 23 4 50 4Z" fill={INK} />
       <path
         d="M50 11c23 0 38 16 38 40 0 24-15 42-38 47-23-5-38-23-38-47 0-24 15-40 38-40Z"
-        fill="#E8B89A"
+        fill="none"
+        stroke={BG}
+        strokeWidth="1.2"
+        opacity="0.35"
       />
       {HOLES.map(([cx, cy]) => (
-        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="2.4" fill="#1A1008" />
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="2.4" fill={BG} />
       ))}
       {/* Throat with open bridge */}
-      <path
-        fillRule="evenodd"
-        d="M28 95 43 130h14l15-35-8 3-14 1-14-1ZM41 103l9 18 9-18-9 1Z"
-        fill="#C4622D"
-      />
+      <path fillRule="evenodd" d="M28 95 43 130h14l15-35-8 3-14 1-14-1ZM41 103l9 18 9-18-9 1Z" fill={INK} />
       {/* Handle, grip wrap and butt cap */}
-      <rect x="42" y="128" width="16" height="44" rx="4" fill="#C4622D" />
-      <path
-        d="M42 136l16-6M42 145l16-6M42 154l16-6M42 163l16-6"
-        stroke="#1A1008"
-        strokeWidth="1.6"
-        opacity="0.45"
-      />
-      <rect x="39" y="169" width="22" height="9" rx="4" fill="#A64A2E" />
+      <rect x="42" y="128" width="16" height="44" rx="4" fill={INK} />
+      <path d="M42 136l16-6M42 145l16-6M42 154l16-6M42 163l16-6" stroke={BG} strokeWidth="1.4" opacity="0.4" />
+      <rect x="39" y="169" width="22" height="9" rx="4" fill={INK} />
+    </g>
+  );
+}
+
+// Two rackets crossed at the throat, static
+function CrossedRackets({ className }) {
+  return (
+    <svg viewBox="0 0 200 200" className={className} aria-hidden="true">
+      <g transform="translate(50 14) rotate(-40 50 125)">
+        <Racket />
+      </g>
+      <g transform="translate(50 14) rotate(40 50 125)">
+        <Racket />
+      </g>
     </svg>
   );
 }
@@ -112,42 +119,31 @@ export default function Loader() {
       {!done && (
         <motion.div
           key="loader"
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#1A1008] text-[#F5DEC8]"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#FFFBDC] text-[#1A1008]"
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 0.8, ease: [0.65, 0, 0.35, 1] } }}
         >
-          <motion.div
-            style={{ transformOrigin: '50% 95%' }}
-            animate={{ rotate: [-18, 18, -18] }}
-            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          >
-            <PadelRacket className="w-14 h-[102px] md:w-16 md:h-[116px]" />
-          </motion.div>
+          <CrossedRackets className="w-28 h-28 md:w-32 md:h-32" />
 
-          <motion.div
-            className="mt-8 flex flex-col items-center"
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
-          >
-            <span className="font-serif text-4xl md:text-5xl font-bold tracking-wider text-[#F5DEC8]">
+          <div className="mt-6 flex flex-col items-center">
+            <span className="font-serif text-4xl md:text-5xl font-bold tracking-wider text-[#1A1008]">
               The Oak
             </span>
             <span className="mt-2 text-[10px] uppercase tracking-[0.3em] text-[#C4622D] font-sans font-medium">
               Padel House • Est. 2024
             </span>
 
-            <div className="mt-5 h-px w-40 md:w-48 bg-[#E8B89A]/20 overflow-hidden">
+            <div className="mt-5 h-px w-40 md:w-48 bg-[#1A1008]/15 overflow-hidden">
               <div
-                className="h-full bg-[#E8B89A]"
+                className="h-full bg-[#1A1008]"
                 style={{ width: `${progress}%` }}
               />
             </div>
 
-            <span className="mt-3 text-[9px] uppercase tracking-[0.35em] text-[#E8B89A]/70 font-sans">
+            <span className="mt-3 text-[9px] uppercase tracking-[0.35em] text-[#1A1008]/60 font-sans">
               Preparing your court · {progress}%
             </span>
-          </motion.div>
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
